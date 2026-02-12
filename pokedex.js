@@ -1027,5 +1027,21 @@
         "Iron Leaves": 1024,
         "Miraidon": 1025
     };
+        // Build reverse map: ID -> Pokémon name (canonical)
+    window.POKEMON_ID_TO_NAME = {};
+    // Optional: keep *all* aliases for a given ID (Farfetch’d/Farfetchd, Mr Mime/Mr. Mime, etc.)
+    window.POKEMON_ID_TO_NAMES = {};
+
+    for (const [name, id] of Object.entries(window.POKEMON_NAME_TO_ID)) {
+        const key = String(id);
+
+        // collect aliases
+        (window.POKEMON_ID_TO_NAMES[key] ??= []).push(name);
+
+        // pick a canonical name for each ID (first one encountered wins)
+        if (window.POKEMON_ID_TO_NAME[key] == null) {
+            window.POKEMON_ID_TO_NAME[key] = name;
+        }
+    }
 })();
 ``
